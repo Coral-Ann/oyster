@@ -21,17 +21,15 @@ class Oystercard
   end
 
   def touch_in(station)
-    restart_journey_again if @current_journey != nil
+    end_of_journey(nil) if @current_journey != nil
     fail "Insufficient balance" if insufficient_balance?
     @current_journey = Journey.new(station)
   end
 
-  def touch_out(station)
-    @current_journey = Journey.new(:unknown) if @current_journey == nil
-    @current_journey.end_journey(station)
-    deduct(@current_journey.fare)
-    journeys.push(@current_journey)
-    @current_journey = nil
+  def touch_out(station = nil)
+    @current_journey = Journey.new(nil) if @current_journey == nil
+    end_of_journey(station)
+    #@current_journey = nil
   end
 
 private
@@ -49,8 +47,8 @@ private
     @balance < MINIMUM_FARE
   end
 
-  def restart_journey_again # If touched in twice
-    @current_journey.end_journey
+  def end_of_journey(station) # If touched in twice
+    @current_journey.end_journey(station)
     deduct(@current_journey.fare)
     journeys.push(@current_journey)
   end

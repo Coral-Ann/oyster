@@ -12,7 +12,7 @@ class Journey
     @exit_station != nil
   end
 
-  def end_journey(exit_station = :unknown)
+  def end_journey(exit_station = nil)
     @exit_station = exit_station
   end
 
@@ -23,7 +23,7 @@ class Journey
   private
 
   def is_penalty_journey
-    @entry_station == :unknown || @exit_station == :unknown
+    @entry_station == nil || @exit_station == nil
   end
 
 end
