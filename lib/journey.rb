@@ -3,27 +3,22 @@ class Journey
 
   PENALTY_FARE = 6.0
 
-  def initialize(entry_station)
+  def initialize(entry_station = nil)
     @entry_station = entry_station
-    @exit_station = nil
   end
 
-  def complete?
-    @exit_station != nil
-  end
-
-  def end_journey(exit_station = nil)
+  def end_journey(exit_station)
     @exit_station = exit_station
   end
 
   def fare
-    is_penalty_journey ? PENALTY_FARE : Oystercard::MINIMUM_FARE
+    complete? ? Oystercard::MINIMUM_FARE : PENALTY_FARE
   end
 
   private
 
-  def is_penalty_journey
-    @entry_station == nil || @exit_station == nil
+  def complete?
+    @entry_station != nil && @exit_station != nil
   end
 
 end

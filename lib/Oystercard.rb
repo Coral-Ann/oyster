@@ -11,11 +11,10 @@ class Oystercard
     @balance = 0.0
     @limit = LIMIT
     @journeys = []
-    @current_journey = nil
   end
 
   def top_up(amount)
-    raise "Top-up will exceed limit of £#{@limit}" if exceed_limit?(amount)
+    fail "Top-up will exceed limit of £#{@limit}" if exceed_limit?(amount)
     @balance += amount.to_f
     "Your balance is £#{@balance}"
   end
@@ -26,10 +25,10 @@ class Oystercard
     @current_journey = Journey.new(station)
   end
 
-  def touch_out(station = nil)
-    @current_journey = Journey.new(nil) if @current_journey == nil
+  def touch_out(station)
+    @current_journey = Journey.new if @current_journey == nil
     end_of_journey(station)
-    #@current_journey = nil
+    @current_journey = nil
   end
 
 private

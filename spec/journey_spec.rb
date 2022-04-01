@@ -13,9 +13,10 @@ describe Journey do
     expect(journey.exit_station).to eq nil
   end
 
-  it "sets 'complete' to false when created" do
-    expect(journey.complete?).to be false
-  end
+  # Test for #complete? private method.
+  # it "sets 'complete' to false when created" do
+  #   expect(journey.complete?).to be false
+  # end
 
   context "#end_journey" do
     it "updates the exit station to the argument that is passed" do
@@ -25,18 +26,18 @@ describe Journey do
 
   context '#fare' do
 
-    it "returns £1 unless it's a penalty journey" do
+    it "returns £1 if it's a normal completed journey" do
+      journey.end_journey('Euston')
       expect(journey.fare).to eq Oystercard::MINIMUM_FARE
     end
 
     it "returns £6 if there is no touch_out" do
-      journey2 = Journey.new(station1)
-      journey2.end_journey(:unknown)
-      expect(journey2.fare).to eq Journey::PENALTY_FARE
+      journey.end_journey(nil)
+      expect(journey.fare).to eq Journey::PENALTY_FARE
     end
 
     it "returns £6 if there is no touch_in" do
-      journey2 = Journey.new(:unknown)
+      journey2 = Journey.new(nil)
       journey2.end_journey(station1)
       expect(journey2.fare).to eq Journey::PENALTY_FARE
     end  
