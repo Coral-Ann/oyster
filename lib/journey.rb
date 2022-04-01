@@ -1,7 +1,6 @@
 class Journey
   attr_reader :entry_station, :exit_station
 
-  MINIMUM = 1.0
   PENALTY_FARE = 6.0
 
   def initialize(entry_station)
@@ -13,15 +12,18 @@ class Journey
     @exit_station != nil
   end
 
-  def end_journey(exit_station)
+  def end_journey(exit_station = :unknown)
     @exit_station = exit_station
   end
 
   def fare
-    if @entry_station == :unknown || @exit_station == :unknown # Not SRP. Refactor this with private method #is_penalty_journey?
-      PENALTY_FARE
-    else
-      MINIMUM
-    end
+    is_penalty_journey ? PENALTY_FARE : Oystercard::MINIMUM_FARE
   end
+
+  private
+
+  def is_penalty_journey
+    @entry_station == :unknown || @exit_station == :unknown
+  end
+
 end

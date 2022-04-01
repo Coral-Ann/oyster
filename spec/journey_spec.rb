@@ -26,13 +26,13 @@ describe Journey do
   context '#fare' do
 
     it "returns £1 unless it's a penalty journey" do
-      expect(journey.fare).to eq Journey::MINIMUM
+      expect(journey.fare).to eq Oystercard::MINIMUM_FARE
     end
 
     it "returns £6 if there is no touch_out" do
       journey2 = Journey.new(station1)
       journey2.end_journey(:unknown)
-      expect(journey2.fare).to eq Journey::PENALTY_FARE #Read this Coral. We'd written expect(journey.fare)...
+      expect(journey2.fare).to eq Journey::PENALTY_FARE
     end
 
     it "returns £6 if there is no touch_in" do

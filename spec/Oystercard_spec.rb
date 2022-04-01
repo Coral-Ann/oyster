@@ -27,7 +27,7 @@ describe Oystercard do
     expect {subject.top_up(1) }.to raise_error("Top-up will exceed limit of £#{subject.limit}")
   end
 
-  it {is_expected.to respond_to(:in_journey?)}
+  # it {is_expected.to respond_to(:in_journey?)}
 
   it "will not touch in if balance is below the minimum fare" do
     expect { subject.touch_in(:station) }.to raise_error("Insufficient balance")
@@ -36,25 +36,7 @@ describe Oystercard do
   it "creates a new journey when touching in" do
     subject.top_up(5)
     expect(subject.touch_in(station)).to be_an_instance_of(Journey)
-    #expect { subject.touch_in(:station) }.to change{ subject.entry_station }.to(:station)
-  end
-
-  context "with positive balance and touched in" do 
-    before (:each) do
-      subject.top_up(5)
-      subject.touch_in(station)
-    end
-
-    it "is 'in journey'" do
-      allow(journey).to receive(:complete?).and_return(false)
-      expect(subject.in_journey?).to be true
-    end
-
-    it "is not 'in journey' if it has been touched out" do
-      allow(journey).to receive(:complete?).and_return(true)
-      subject.touch_out(station2)
-      expect(subject.in_journey?).to be false
-    end
+    # expect { subject.touch_in(:station) }.to change{ subject.entry_station }.to(:station)
   end
 
   context "when touching out at the end of a journey" do
@@ -94,7 +76,7 @@ describe Oystercard do
         subject.touch_in(station)
       end
 
-      it 'deducts the penalty far from balance' do
+      it 'deducts the penalty fare from balance' do
         expect { subject.touch_in(station2) }.to change { subject.balance }.by(-6.0)
       end
 

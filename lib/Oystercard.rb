@@ -5,8 +5,7 @@ class Oystercard
   attr_reader :balance, :limit, :journeys, :current_journey
 
   LIMIT = 90.0
-  MINIMUM = 1.0 # will become redundant
-  PENALTY_FARE = 6.0 # will become redundant
+  MINIMUM_FARE = 1.0
   
   def initialize
     @balance = 0.0
@@ -21,29 +20,16 @@ class Oystercard
     "Your balance is £#{@balance}"
   end
 
-  def in_journey?
-    @current_journey != nil
-  end
-
   def touch_in(station)
-    if @current_journey !=nil
-      @current_journey.end_journey(:unknown)
-      journeys.push(@current_journey)
-      deduct(PENALTY_FARE)
-    end
+    restart_journey_again if @current_journey != nil
     fail "Insufficient balance" if insufficient_balance?
-    journey = Journey.new(station)
-    @current_journey = journey
+    @current_journey = Journey.new(station)
   end
 
   def touch_out(station)
-    if @current_journey == nil
-      @current_journey = Journey.new(:unknown)
-      deduct(PENALTY_FARE) #Need to end_journey first and then deduct the @current_journey.fare
-    else
-      deduct(MINIMUM) #Need to end_journey first and then deduct the @current_journey.fare
-    end
-    @current_journey.end_journey(station) #need to move this above deduct fares once fars are queried from @current_journey.fare
+    @current_journey = Journey.new(:unknown) if @current_journey == nil
+    @current_journey.end_journey(station)
+    deduct(@current_journey.fare)
     journeys.push(@current_journey)
     @current_journey = nil
   end
@@ -60,6 +46,12 @@ private
   end
 
   def insufficient_balance?
-    @balance < MINIMUM #MINIMUM needs to query a journey, this may be an issue. May need to keep MIN in oystercard object
+    @balance < MINIMUM_FARE
+  end
+
+  def restart_journey_again # If touched in twice
+    @current_journey.end_journey
+    deduct(@current_journey.fare)
+    journeys.push(@current_journey)
   end
 end
