@@ -10,9 +10,13 @@ Makers Academy week 2 pairing challenge. We created a working oystercard that ca
 - View previous card journeys.
 
 Each day we worked in different pairs. This repository was created and worked on by the following Makers students:
+
 [Alexis Morcrette](https://github.com/almorcrette)
+
 [Joseph Newman](https://github.com/Josenewmano)
+
 [Joe Mcnally](https://github.com/jmcnally17)
+
 [Coral Baker](https://github.com/Coral-Ann)
 
 
@@ -24,7 +28,7 @@ Each day we worked in different pairs. This repository was created and worked on
 ## Usage
 
 - Use `irb` within the main repository folder, followed by `require ./lib/Oystercard.rb`.
-- Make a new oystercard with `card = Oystercard.new`
+- Make a new oystercard with `card = Oystercard.new`.
 - If you do not wish to have insufficient balance, use `card.top_up(50)`, £90 is the maximum limit.
 - View your balance with `card.balance`.
 - You can use `card.touch_in('station name')` and `card.touch_out('station name')` to complete journeys. If you touch in twice / touch out twice, you will receive a penalty fare. Be sure to complete your journey!
@@ -76,4 +80,4 @@ I need to have the correct fare calculated
 
 ## Functional representation of user stories
 
-- A previous version of a wireframe was completed by Alexis and can be found [here]](https://wireframe.cc/AmgxLr). This may also be updated to represent his following itterations of this code, found [here](https://github.com/almorcrette/oyster-cards) if you'd like to take a look.
+- A previous version of a wireframe was completed by Alexis and can be found [here](https://wireframe.cc/AmgxLr). This may also be updated to represent his following itterations of this code, found [here](https://github.com/almorcrette/oyster-cards) if you'd like to take a look.
